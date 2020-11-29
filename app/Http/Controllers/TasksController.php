@@ -16,10 +16,10 @@ class TasksController extends Controller
     public function index()
     {
        
-        $tasks = task::all();
+        $tasks = task::all(); /*ユーザーIDごとに表示することが必要*/
 
         
-        return view('tasks.index', [
+        return view('welcome', [
             'tasks' => $tasks,
         ]);
     }
@@ -54,6 +54,7 @@ class TasksController extends Controller
         ]);
         $task = new Task;
         $task->status = $request->status;
+        $task->userid = $request->userid;
         $task->content = $request->content;
         $task->save();
 

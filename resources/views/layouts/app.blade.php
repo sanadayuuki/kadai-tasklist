@@ -21,7 +21,13 @@
                 <div class="collapse navbar-collapse" id="nav-bar">
                     <ul class="navbar-nav mr-auto"></ul>
                     <ul class="navbar-nav">
-
+                        /* 後の課題のためコメントアウト
+                        <li class="nav-item">{!! link_to_route('tasks.create', '新規タスクの投稿', [], ['class' => 'nav-link']) !!}</li>
+                        {{-- ユーザ登録ページへのリンク --}}
+                        <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
+                        {{-- ログインページへのリンク --}}
+                        <li><a href="#">Login</a></li>
+                        */
                     </ul>
                 </div>
             </nav>
