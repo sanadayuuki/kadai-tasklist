@@ -15,11 +15,11 @@ class TasksController extends Controller
      */
     public function index()
     {
+        $data = [];
        
-        $tasks = task::all(); /*ユーザーIDごとに表示することが必要*/
-
+        $tasks = task::all();
         
-        return view('welcome', [
+        return view('tasks.index', [
             'tasks' => $tasks,
         ]);
     }
@@ -30,12 +30,10 @@ class TasksController extends Controller
      */
     public function create()
     {
-        $task = new Task;
-
-       
-        return view('tasks.create', [
-            'task' => $task,
-        ]);
+            $task = new Task;
+            return view('tasks.create', [
+                'task' => $task,
+            ]);
     }
 
     /**
@@ -46,6 +44,8 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+
+        $user = \Auth::user();
         $request->validate([
             'status' => 'required|max:10',
         ]);
@@ -54,11 +54,9 @@ class TasksController extends Controller
         ]);
         $task = new Task;
         $task->status = $request->status;
-        $task->userid = $request->userid;
+        $task->user_id = $user->id;
         $task->content = $request->content;
         $task->save();
-
-        // トップページへリダイレクトさせる
         return redirect('/');
     }
 
@@ -70,13 +68,16 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
+        if($user->id == $task->user_id ){
 
-        
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -87,13 +88,16 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-      
+
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
-
-
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if($user->id == $task->user_id ){
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -111,12 +115,15 @@ class TasksController extends Controller
         $request->validate([
             'content' => 'required',
         ]);
+        
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
         // メッセージを更新
-        $task->status = $request->status;    // 追加
-        $task->content = $request->content;
-        $task->save();
-
+        if($user->id == $task->user_id ){
+            $task->status = $request->status;    // 追加
+            $task->content = $request->content;
+            $task->save();
+        }
         // トップページへリダイレクトさせる
         return redirect('/');
     }
@@ -129,10 +136,12 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
-        // メッセージを削除
-        $task->delete();
+        if($user->id == $task->user_id ){
+            // メッセージを削除
+            $task->delete();
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');
