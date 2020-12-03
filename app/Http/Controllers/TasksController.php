@@ -70,10 +70,14 @@ class TasksController extends Controller
     {
         $user = \Auth::user();
         $task = Task::findOrFail($id);
+        if($user->id == $task->user_id ){
 
             return view('tasks.show', [
                 'task' => $task,
             ]);
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -134,10 +138,10 @@ class TasksController extends Controller
     {
         $user = \Auth::user();
         $task = Task::findOrFail($id);
-
+        if($user->id == $task->user_id ){
             // メッセージを削除
             $task->delete();
-
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');
