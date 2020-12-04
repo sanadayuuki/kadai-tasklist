@@ -15,13 +15,18 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $data = [];
-       
-        $tasks = task::all();
+        if(\Auth::check()){
+            $user = \Auth::user();
+            $tasks = task::where('user_id',$user->id)->get();
         
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
+        }else{
+            return view('welcome');
+        }
+       
+
     }
     /**
      * Show the form for creating a new resource.

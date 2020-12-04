@@ -25,7 +25,9 @@
                         {{-- ユーザ登録ページへのリンク --}}
                         <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
                         {{-- ログインページへのリンク --}}
-<li class="nav-item">{!! link_to_route('login', 'Login', [], ['class' => 'nav-link']) !!}</li>
+                        <li class="nav-item">{!! link_to_route('login', 'Login', [], ['class' => 'nav-link']) !!}</li>
+                         {{-- ログアウトへのリンク --}}
+                        <li class="nav-item">{!! link_to_route('logout.get', 'Logout', [], ['class' => 'nav-link']) !!}</li>
                     </ul>
                 </div>
             </nav>
